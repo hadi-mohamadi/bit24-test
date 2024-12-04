@@ -7,13 +7,15 @@ plugins {
 
 android {
     namespace = "ir.bit24.networking"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("String", "BASE_API", "\"https://mocki.io/v1/\"")
     }
 
     buildTypes {
@@ -31,6 +33,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 
