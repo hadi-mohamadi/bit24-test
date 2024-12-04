@@ -36,6 +36,8 @@ android {
 
 dependencies {
 
+    implementation(project(":core:networking"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -45,4 +47,5 @@ dependencies {
 
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.hilt.compiler)
+    implementation(libs.dagger.hilt.navigation)
 }
