@@ -6,9 +6,8 @@ import io.ktor.client.request.get
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import ir.bit24.stations.data.model.StationDto
-import javax.inject.Inject
 
-class StationRemoteDataSourceImpl @Inject constructor(
+class StationRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : StationRemoteDataSource {
     override suspend fun fetchStations(): List<StationDto> {

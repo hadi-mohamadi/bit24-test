@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "ir.bit24.hadi"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -54,6 +54,7 @@ android {
 
 dependencies {
 
+    implementation(project(":core:theme"))
     implementation(project(":features:stations"))
 
     implementation(libs.androidx.core.ktx)
@@ -75,4 +76,6 @@ dependencies {
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.hilt.compiler)
     implementation(libs.dagger.hilt.navigation)
+
+    implementation(libs.gson)
 }

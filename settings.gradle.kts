@@ -22,4 +22,5 @@ dependencyResolutionManagement {
 rootProject.name = "hadi"
 include(":app")
 include(":core:networking")
+include(":core:theme")
 include(":features:stations")
