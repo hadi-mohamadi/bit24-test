@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -36,6 +37,7 @@ import ir.bit24.stations.presentation.util.latitude
 import ir.bit24.stations.presentation.util.longitude
 import ir.bit24.stations.presentation.util.rentalMethod
 import ir.bit24.stations.presentation.util.showInMap
+import ir.bit24.stations.presentation.util.unknownError
 
 @Composable
 fun ListScreen(modifier: Modifier = Modifier, navigateToStationDetail: (Station) -> Unit) {
@@ -48,7 +50,7 @@ fun ListScreen(modifier: Modifier = Modifier, navigateToStationDetail: (Station)
             }
 
             is StationState.Error -> {
-                ErrorContent(message = (state.value as StationState.Error).message)
+                ErrorContent(message = (state.value as StationState.Error).message ?: unknownError)
             }
 
             is StationState.Success -> {
@@ -89,13 +91,13 @@ fun MainContentPreview() {
                 name = "Finders Street Station",
                 rentalMethod = "CREDITCARD,KEY",
                 capacity = 30,
-                geocodedColumn = GeocodedColumn("-37.818078", longitude = "144.967453")
+                geocodedColumn = GeocodedColumn(-37.818078, longitude = 144.967453)
             ), Station(
                 id = "1",
                 name = "Finders Street Station",
                 rentalMethod = "CREDITCARD,KEY",
                 capacity = 30,
-                geocodedColumn = GeocodedColumn("-37.818078", longitude = "144.967453")
+                geocodedColumn = GeocodedColumn(-37.818078, longitude = 144.967453)
             )
         ), onDetailsClick = {}, onShowInMapClick = {}
     )
@@ -206,7 +208,7 @@ fun StationCardPreview() {
             name = "Finders Street Station",
             rentalMethod = "CREDITCARD,KEY",
             capacity = 30,
-            geocodedColumn = GeocodedColumn("-37.818078", longitude = "144.967453")
+            geocodedColumn = GeocodedColumn(-37.818078, longitude = 144.967453)
         ), onDetailsClick = {}, onShowInMapClick = {}
     )
 }
@@ -236,7 +238,7 @@ fun ErrorContent(modifier: Modifier = Modifier, message: String) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(message, color = colorScheme.error)
+        Text(message, color = colorScheme.error, textAlign = TextAlign.Center)
     }
 }
 

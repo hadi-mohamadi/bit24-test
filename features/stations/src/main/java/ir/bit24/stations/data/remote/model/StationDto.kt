@@ -1,4 +1,4 @@
-package ir.bit24.stations.data.model
+package ir.bit24.stations.data.remote.model
 
 import ir.bit24.stations.domain.model.Station
 import kotlinx.serialization.SerialName

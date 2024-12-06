@@ -13,15 +13,17 @@ import javax.inject.Inject
 sealed class StationState {
     data object Loading : StationState()
     data class Success(val stations: List<Station>) : StationState()
-    data class Error(val message: String) : StationState()
+    data class Error(val message: String?) : StationState()
 }
 
 @HiltViewModel
 class StationViewModel @Inject constructor(
     private val getStationsUseCase: GetStationsUseCase
 ) : ViewModel() {
-    private val _state:MutableStateFlow<StationState> = MutableStateFlow<StationState>(StationState.Loading)
+    private val _state: MutableStateFlow<StationState> =
+        MutableStateFlow<StationState>(StationState.Loading)
     val state: StateFlow<StationState> get() = _state
+
     init {
         fetchStations()
     }
@@ -34,8 +36,7 @@ class StationViewModel @Inject constructor(
             }.onSuccess {
                 _state.value = StationState.Success(it)
             }.onFailure {
-                println("hellooo: ${it.message}")
-                _state.value = StationState.Error(it.message ?: "Unknown error")
+                _state.value = StationState.Error(it.message)
             }
         }
     }

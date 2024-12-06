@@ -1,4 +1,4 @@
-package ir.bit24.stations.data.model
+package ir.bit24.stations.data.remote.model
 
 import ir.bit24.stations.domain.model.GeocodedColumn
 import kotlinx.serialization.Serializable
@@ -9,6 +9,6 @@ data class GeocodedColumnDto(
     val longitude: String
 ) {
     fun toDomainModel(): GeocodedColumn {
-        return GeocodedColumn(latitude = this.latitude, longitude = longitude)
+        return GeocodedColumn(latitude = this.latitude.toDouble(), longitude = longitude.toDouble())
     }
 }
