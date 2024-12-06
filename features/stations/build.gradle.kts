@@ -1,26 +1,21 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
     kotlin("kapt")
     alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "ir.bit24.hadi"
+    namespace = "ir.bit24.stations"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "ir.bit24.hadi"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -39,23 +34,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
 dependencies {
 
+    implementation(project(":core:networking"))
     implementation(project(":core:theme"))
-    implementation(project(":features:stations"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -77,5 +61,9 @@ dependencies {
     kapt(libs.dagger.hilt.compiler)
     implementation(libs.dagger.hilt.navigation)
 
-    implementation(libs.gson)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.client.logging)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
 }

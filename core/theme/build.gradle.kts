@@ -1,21 +1,18 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    kotlin("kapt")
-    alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
-    namespace = "ir.bit24.networking"
-    compileSdk = 35
+    namespace = "ir.bit24.theme"
+    compileSdk = 34
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-
-        buildConfigField("String", "BASE_API", "\"https://mocki.io/v1/\"")
     }
 
     buildTypes {
@@ -34,10 +31,6 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-
-    buildFeatures {
-        buildConfig = true
-    }
 }
 
 dependencies {
@@ -45,16 +38,13 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    implementation(libs.dagger.hilt)
-    kapt(libs.dagger.hilt.compiler)
-
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.okhttp)
-    implementation(libs.ktor.client.logging)
-    implementation(libs.ktor.client.content.negotiation)
-    implementation(libs.ktor.serialization.kotlinx.json)
 }
