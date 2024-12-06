@@ -20,11 +20,16 @@ sealed class StationState {
 class StationViewModel @Inject constructor(
     private val getStationsUseCase: GetStationsUseCase
 ) : ViewModel() {
-    private val _state: MutableStateFlow<StationState> =
-        MutableStateFlow<StationState>(StationState.Loading)
+    private val _state: MutableStateFlow<StationState> = MutableStateFlow(StationState.Loading)
     val state: StateFlow<StationState> get() = _state
+    var filter: String = ""
 
     init {
+        fetchStations()
+    }
+
+    fun updateFilter(filter: String) {
+        this.filter = filter
         fetchStations()
     }
 
@@ -32,7 +37,7 @@ class StationViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 _state.value = StationState.Loading
-                getStationsUseCase()
+                getStationsUseCase(filter)
             }.onSuccess {
                 _state.value = StationState.Success(it)
             }.onFailure {
