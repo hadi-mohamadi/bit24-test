@@ -1,6 +1,7 @@
 package ir.bit24.stations.presentation.list
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -21,13 +23,18 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ir.bit24.stations.domain.model.GeocodedColumn
 import ir.bit24.stations.domain.model.Station
@@ -36,6 +43,7 @@ import ir.bit24.stations.presentation.util.details
 import ir.bit24.stations.presentation.util.latitude
 import ir.bit24.stations.presentation.util.longitude
 import ir.bit24.stations.presentation.util.rentalMethod
+import ir.bit24.stations.presentation.util.searchStations
 import ir.bit24.stations.presentation.util.showInMap
 import ir.bit24.stations.presentation.util.unknownError
 
@@ -43,7 +51,30 @@ import ir.bit24.stations.presentation.util.unknownError
 fun ListScreen(modifier: Modifier = Modifier, navigateToStationDetail: (Station) -> Unit) {
     val viewModel: StationViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState()
-    Column(modifier = modifier.fillMaxSize()) {
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .fillMaxSize()
+            .imePadding()
+            .padding(all = 16.dp)
+    ) {
+        TextField(
+            value = viewModel.filter,
+            onValueChange = {
+                viewModel.updateFilter(filter = it)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color.White)
+                .border(1.dp, Color(0xFFCCCCCC), RoundedCornerShape(8.dp)),
+            placeholder = { Text(text = searchStations) },
+            singleLine = true,
+            textStyle = TextStyle(fontSize = 16.sp),
+        )
+
         when (state.value) {
             is StationState.Loading -> {
                 LoadingContent()
@@ -65,10 +96,15 @@ fun ListScreen(modifier: Modifier = Modifier, navigateToStationDetail: (Station)
 
 @Composable
 fun MainContent(
-    modifier: Modifier = Modifier, stations: List<Station>, onDetailsClick: (Station) -> Unit,
+    modifier: Modifier = Modifier,
+    stations: List<Station>,
+    onDetailsClick: (Station) -> Unit,
     onShowInMapClick: (Station) -> Unit
 ) {
-    Column(modifier = modifier.fillMaxSize()) {
+    Column(
+        modifier = modifier
+    ) {
+
         Spacer(modifier = Modifier.weight(1F))
         LazyRow {
             itemsIndexed(stations, key = { _, item -> item.id }) { _, station ->
